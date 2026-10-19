@@ -79,6 +79,15 @@ to rediscover. Source and tests remain the authority for implementation facts.
 - Consequences: Third-party components retain their own licenses; `build.py` must keep embedding `LICENSE` and the notices. Change requires a new superseding decision.
 - Supersedes: None
 
+## D-0009 — Performance policy: measured UNO costs, rejected controller locking
+
+- Date: 2026-10-19
+- Status: Accepted
+- Context: The user asked whether a native (C++/Rust) implementation was warranted and proposed measuring the real user-perceived path before changing languages. Measured on the development host (LO 25.2.3.2 headless, ~300-paragraph synthetic document, external UNO socket client): a full read is ~40-70 ms and the local HTTP transport adds <1 ms; the dominant cost is LibreOffice's own re-formatting of dirty text regions after mutations (a bookmark insert at document start ~1.5 s, at document end ~11 ms — position-dependent), while single UNO round trips and Python marshalling are single-digit milliseconds.
+- Decision: Keep the Python-UNO extension. Do not introduce C++ or Rust unless a benchmark demonstrably attributes a bottleneck to the language layer. A `ControllerLock` (`lockControllers`) experiment around the four mutation paths was implemented, measured, and reverted: it relocated the intrinsic formatting cost to the next model access (a read became ~2.6 s after a locked early mutation) without reducing total work, so it stays out of the synchronous MCP flow. Optimization work targets the workload instead: fewer dirty-region invalidations per logical edit, an incremental document representation with revision-gated validation, and re-measurement through `tests/bench_read_apply.py`.
+- Consequences: Performance claims require benchmark evidence. When the incremental representation lands, add an end-to-end latency criterion to the M7 gate. Revisit language choice only with new measurements.
+- Supersedes: None
+
 ## Record format
 
 For later decisions, add one compact entry with:

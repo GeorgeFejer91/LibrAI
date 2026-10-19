@@ -95,6 +95,20 @@ These limits must not be presented as completed capabilities. The M7 release
 gate requires rerunning the blocked smokes on a supported branch (26.2+) with
 a display before parity is claimed.
 
+## Performance evidence
+
+`tests/bench_read_apply.py` measures the read and mutation paths against a
+disposable soffice (see its docstring). Recorded on the development host on
+2026-10-19 (LO 25.2.3.2 headless, 300-paragraph synthetic document): full
+reads ~40-70 ms, HTTP transport <1 ms; mutation cost is dominated by
+LibreOffice's own re-formatting of dirty text regions (position-dependent,
+~1.5 s for a document-start bookmark insert, ~11 ms at document end). A
+`lockControllers` experiment was measured and rejected (cost relocation, no
+net win in the synchronous flow); see [D-0009](./DECISIONS.md). Any
+performance change must re-run this benchmark and report before/after
+numbers; language-layer rewrites additionally need evidence that a measured
+bottleneck is attributable to Python marshalling.
+
 ## Gate 4: publication
 
 1. Review status and diff; preserve unrelated changes.
