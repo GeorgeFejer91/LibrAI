@@ -28,7 +28,7 @@ Add project-specific non-goals only after they prevent a plausible wrong turn.
 
 ## Architecture and ownership
 
-The LibreOffice extension API, supported Writer versions, document-model integration, persistence, AI/MCP transport, packaging, build stack, and implementation protocols are **Undecided**. Research and select these from current LibreOffice documentation before product code. WordPlai’s C#/COM/WinForms implementation is a behavioral reference only; do not assume its native APIs or storage transfer to Writer.
+The Writer host is a Python-UNO extension (`.oxt`, `Addons.xcu` menus) per [D-0003](./DECISIONS.md). Supported Writer versions, document-model integration, persistence, AI/MCP transport, packaging tool, and test harness remain **Undecided**; select them from current LibreOffice documentation before product code. WordPlai’s C#/COM/WinForms implementation is a behavioral reference only; do not assume its native APIs or storage transfer to Writer.
 
 ## Current verified state
 

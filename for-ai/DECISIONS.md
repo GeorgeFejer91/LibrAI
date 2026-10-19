@@ -25,6 +25,15 @@ to rediscover. Source and tests remain the authority for implementation facts.
 - Consequences: Update the parity contract in both repositories when the shared baseline changes, and verify each host independently. See [`CROSS-PLATFORM-COMPATIBILITY.md`](./CROSS-PLATFORM-COMPATIBILITY.md) in both repositories.
 - Supersedes: None
 
+## D-0003 — Python-UNO for the Writer extension host
+
+- Date: 2026-10-19
+- Status: Accepted
+- Context: Writer extensions can use Basic, Python, JavaScript, Java, BeanShell, or C++ through the UNO component API. WordPlai's C#/COM/WinForms code is a behavioral reference only.
+- Decision: Build the Writer product as a Python-UNO extension packaged as an `.oxt`, using the Python runtime bundled with LibreOffice, with menus declared through `Addons.xcu`. The AI/MCP transport, persistence format, and packaging tool remain undecided until a focused task selects them.
+- Consequences: No separate runtime or build toolchain is required to start. Document access goes through UNO, so tracked changes, comments, and undo must be verified in Writer itself. Revisit if a required host capability is unavailable from Python-UNO.
+- Supersedes: None
+
 ## Record format
 
 For later decisions, add one compact entry with:
