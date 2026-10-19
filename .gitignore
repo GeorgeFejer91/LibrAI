@@ -1,6 +1,10 @@
 # Local agent/runtime artifacts
 .for-ai-local/
 
+# Built extension artifacts
+dist/
+artifacts/
+
 # Local configuration and credentials
 .env
 .env.*
@@ -12,3 +16,7 @@ Thumbs.db
 *.swp
 *.tmp
 *.log
+
+# Python bytecode
+__pycache__/
+*.pyc
