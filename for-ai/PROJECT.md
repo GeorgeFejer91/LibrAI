@@ -59,7 +59,7 @@ The Writer host is a Python-UNO extension per [D-0003](./DECISIONS.md), ported f
 - Repository initialized 2026-10-19; control plane and public page live.
 - Writer extension ported and rebranded to LibrAI 0.1.0 (see D-0007); `python3 build.py` produces a deterministic `.oxt`.
 - On the development host (LibreOffice 25.2.3.2 headless, python3-uno): 137 pure tests pass (2 Windows-only skips); the `.oxt` installs and its protocol registers; the base UNO smoke (markers, metadata reopen, Unicode, formatting, suggestion approval, direct permission, overlaps, stale rejection, isolation, popup, HTTP callbacks, revocation), peer-catalogue, connections-access and dialog-layout smokes pass. Recorded limits: protected-fragment reconstruction cases and the consent no-fit check fail on this EOL branch / headless display (identical failures reproduced with the original wrAIter code); see [`VERIFICATION.md`](./VERIFICATION.md).
-- A license for this repository is undecided; nothing here licenses or waives it.
+- The repository is MIT-licensed per [D-0008](./DECISIONS.md); the license ships inside the `.oxt`.
 
 Git and runnable checks are the authority for branch, revision, and behavior.
 Do not turn this section into a second status ledger.

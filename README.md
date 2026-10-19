@@ -49,4 +49,6 @@ The shared feature baseline and parity rules are in
 
 ## License
 
-Not yet chosen; see D-0007 in [`for-ai/DECISIONS.md`](for-ai/DECISIONS.md).
+MIT — see [LICENSE](LICENSE). The license ships inside the `.oxt`; bundled
+third-party components (zrok, optional MinGit runtime) keep their own notices
+under `extension/notices/`.

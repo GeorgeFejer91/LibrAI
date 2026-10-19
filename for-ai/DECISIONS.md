@@ -70,6 +70,15 @@ to rediscover. Source and tests remain the authority for implementation facts.
 - Consequences: The ported test suite is the primary verification gate. Versioned verification history in the package README remains attributed to wrAIter. Known host-version limits on the local EOL LibreOffice 25.2 are recorded in [`VERIFICATION.md`](./VERIFICATION.md), not worked around. The repository needs a license decision (the source repository has none); this entry does not choose one.
 - Supersedes: D-0004, D-0005, D-0006
 
+## D-0008 — MIT license
+
+- Date: 2026-10-19
+- Status: Accepted
+- Context: D-0007 left the repository license undecided; the repository is public and ships a `.oxt`.
+- Decision: License the repository under the MIT license, copyright "LibrAI contributors". The license file ships inside the `.oxt` alongside the unchanged bundled third-party notices (`zrok-LICENSE.txt`, optional MinGit runtime).
+- Consequences: Third-party components retain their own licenses; `build.py` must keep embedding `LICENSE` and the notices. Change requires a new superseding decision.
+- Supersedes: None
+
 ## Record format
 
 For later decisions, add one compact entry with:

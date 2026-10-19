@@ -78,6 +78,9 @@ def build(destination, zrok_executable=None, git_archive=None):
         info = zipfile.ZipInfo("selective-editor-contract.json", (2026, 10, 17, 0, 0, 0))
         info.compress_type = zipfile.ZIP_DEFLATED
         archive.writestr(info, (source / "selective-editor-contract.json").read_bytes())
+        info = zipfile.ZipInfo("LICENSE", (2026, 10, 17, 0, 0, 0))
+        info.compress_type = zipfile.ZIP_DEFLATED
+        archive.writestr(info, (root / "LICENSE").read_bytes())
         info = zipfile.ZipInfo("README.md", (2026, 10, 17, 0, 0, 0))
         info.compress_type = zipfile.ZIP_DEFLATED
         readme = (source / "README.md").read_text(encoding="utf-8")
