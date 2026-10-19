@@ -49,6 +49,52 @@ Run proportionate build, test, lint, type, runtime, visual, device, security,
 and compatibility checks for every affected boundary. Do not run an expensive
 or irrelevant full matrix for a documentation-only edit.
 
+## Writer extension gates
+
+From the repository root (requires python3 with the `uno` module, `soffice`,
+and `unopkg` on PATH):
+
+```bash
+python3 build.py                                     # deterministic .oxt into artifacts/librai/
+python3 -m unittest discover -s tests -p 'test_*.py' # pure suite, no display needed
+```
+
+Real-UNO smokes run against a disposable headless Writer with the built
+extension installed in a scratch profile:
+
+```bash
+unopkg -env:UserInstallation="file://$PWD/.for-ai-local/uno-profile" add --suppress-license artifacts/librai/LibrAI.oxt
+soffice --headless --norestore --nologo --nofirststartwizard \
+  -env:UserInstallation="file://$PWD/.for-ai-local/uno-profile" \
+  --accept="socket,host=127.0.0.1,port=2087;urp;StarOffice.ComponentContext" &
+LIBRAI_WRITER_EXTENSION_SOURCE="$PWD/extension" python3 tests/uno_smoke.py --port 2087 --output .for-ai-local/uno-smoke.odt --extension-check
+```
+
+Note the `-env:` option must precede the unopkg command; after the command it
+is ignored and the extension installs into the real user profile instead.
+`uno_smoke.py` runs the contract verification first, which is blocked on the
+local EOL branch (below); the remaining `run()` behaviors can be exercised
+with the scratch driver pattern that stubs only that verification.
+
+Known limits on the development host (LibreOffice 25.2.3.2, headless,
+python3-uno 25.2.3), reproduced identically with the original wrAIter 0.4.1
+code, so they are host-version/display limits rather than port regressions:
+
+- `uno_contract_smoke` protected-fragment reconstruction cases and
+  `uno_highlighting_smoke` fail in `Session.apply` (native protected insertion
+  changes reconstructed or surrounding text).
+- `uno_pending_rejection_lifecycle` reaches the same `apply` path.
+- `uno_consent_smoke` no-fit share-button state assert fails without display
+  metrics.
+- `uno_dropdown_smoke` is blocked on the `pending-reopen.odt` fixture produced
+  by the blocked contract smoke.
+- Pure `test_connection` subprocess checks spawn soffice without an isolated
+  profile; on Linux that touches the real user profile.
+
+These limits must not be presented as completed capabilities. The M7 release
+gate requires rerunning the blocked smokes on a supported branch (26.2+) with
+a display before parity is claimed.
+
 ## Gate 4: publication
 
 1. Review status and diff; preserve unrelated changes.
@@ -65,8 +111,11 @@ For any change to a shared capability, update the contract in both repositories 
 ## Current public page
 
 - The repository root `index.html` is the GitHub Pages source (`main` / `/`).
-- For the initial deliverable, verify the page returns HTTP 200 and identifies LibrAI, its WordPlai relationship, the parity goal, and the fact that no product implementation exists yet.
-- A public page deployment does not verify a LibreOffice add-in or feature parity.
+- Verify the page returns HTTP 200 and identifies LibrAI, its WordPlai
+  relationship, the parity goal, and the current verified implementation state
+  without claiming unverified parity.
+- A public page deployment does not verify a LibreOffice add-in or feature
+  parity.
 
 ## Handoff evidence
 

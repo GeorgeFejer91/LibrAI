@@ -27,11 +27,13 @@ This repository is finished when:
 - **M6 — Protection and review rules**: preserve-text, reject, discard, prompt editing, overlap precedence; AI highlighting/recoloring; scope and safety boundaries.
 - **M7 — Parity release**: full baseline verified on Writer and Word, parity gate passed, public claims updated.
 
+Status: M1–M6 code arrived complete via the [D-0007](./DECISIONS.md) port of the wrAIter 0.4.1 Writer add-on and passes its pure test suite locally; real-UNO verification passes on the development host except the recorded host-version and display-metric limits in [`VERIFICATION.md`](./VERIFICATION.md). Remaining work: verification on a supported LibreOffice branch (26.2+), Windows UI/install checks, the public zrok/ChatGPT client gate, and the M7 cross-platform parity gate.
+
 A milestone is complete only when its checks are VERIFIED, never when its code merely exists. Milestones are a durable goal ladder, not a schedule; scope, not dates, orders the work.
 
 ## Current deliverable
 
-The bootstrap deliverable (public project page and project control plane) is complete. Product implementation starts at M1; parity is a project goal, not a current capability claim.
+The product is the ported and rebranded Writer extension (LibrAI 0.1.0, wrAIter 0.4.1 lineage). Parity with WordPlai is a goal verified incrementally; it is not yet a completed-capability claim.
 
 ## Non-goals
 
@@ -44,20 +46,20 @@ Add project-specific non-goals only after they prevent a plausible wrong turn.
 
 ## Product/control-plane boundary
 
-- Product source and deliverables: outside `for-ai/`; exact roots are
-  **Undecided until the first deliverable selects them**.
+- Product source and deliverables: `extension/` (`.oxt` contents), `tests/`, `assets/librai/`, and the root `build.py`. Built artifacts go to git-ignored `dist/` and `artifacts/`.
 - Agent orchestration and durable project memory: `for-ai/`.
 - Local generated diagnostics and scratch evidence: `.for-ai-local/` (ignored).
 
 ## Architecture and ownership
 
-The Writer host is a Python-UNO extension (`.oxt`, `Addons.xcu` menus) per [D-0003](./DECISIONS.md). Supported Writer versions, document-model integration, persistence, AI/MCP transport, packaging tool, and test harness remain **Undecided**; select them from current LibreOffice documentation before product code. WordPlai’s C#/COM/WinForms implementation is a behavioral reference only; do not assume its native APIs or storage transfer to Writer.
+The Writer host is a Python-UNO extension per [D-0003](./DECISIONS.md), ported from the wrAIter 0.4.1 codebase per [D-0007](./DECISIONS.md): a registered UNO component (`librai_writer.py`) with a protocol handler (`vnd.librai:*`), toolbar controllers, and a Writer menu/toolbar (`Addons.xcu`). Document rules, marks and pending suggestions persist in ODT metadata; the MCP server runs in-process with a zrok2 bridge; pairing accepts WordPlai endpoints. WordPlai's C#/COM/WinForms implementation is a behavioral reference only; no native API or storage format is shared.
 
 ## Current verified state
 
-- Fresh Git repository initialized on 2026-10-19.
-- AI control plane created and mechanically checked.
-- No LibreOffice product implementation has been scaffolded. The public page and parity control plane are the only current project deliverables.
+- Repository initialized 2026-10-19; control plane and public page live.
+- Writer extension ported and rebranded to LibrAI 0.1.0 (see D-0007); `python3 build.py` produces a deterministic `.oxt`.
+- On the development host (LibreOffice 25.2.3.2 headless, python3-uno): 137 pure tests pass (2 Windows-only skips); the `.oxt` installs and its protocol registers; the base UNO smoke (markers, metadata reopen, Unicode, formatting, suggestion approval, direct permission, overlaps, stale rejection, isolation, popup, HTTP callbacks, revocation), peer-catalogue, connections-access and dialog-layout smokes pass. Recorded limits: protected-fragment reconstruction cases and the consent no-fit check fail on this EOL branch / headless display (identical failures reproduced with the original wrAIter code); see [`VERIFICATION.md`](./VERIFICATION.md).
+- A license for this repository is undecided; nothing here licenses or waives it.
 
 Git and runnable checks are the authority for branch, revision, and behavior.
 Do not turn this section into a second status ledger.

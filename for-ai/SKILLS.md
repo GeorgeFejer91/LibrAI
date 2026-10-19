@@ -29,7 +29,11 @@ Higher-priority instructions and the current user request always win.
 | LibreOffice API, extension, document model, or MCP contract research | `mcp-research` | Conditional before choosing or changing platform protocols; rely on current primary documentation and record unresolved host limits. |
 | Public page or frontend changes | `uncodixfy` | Conditional for visible HTML/CSS; keep the page accessible and scoped to verified project status. |
 
-No LibreOffice-specific implementation skill has been selected. Add an exact route only when implementation work establishes the relevant stack and a suitable installed skill.
+No LibreOffice-specific implementation skill is installed. The verified fallback
+(see [D-0006](./DECISIONS.md)) is to read LibreOffice core sources and the UNO
+API reference for host facts and verify behavior through the ported test suite
+against the locally installed LibreOffice. Add an exact route only when a
+suitable installed skill appears.
 
 ## Supply-chain rule
 
