@@ -1,5 +1,13 @@
 # LibrAI agent instructions
 
+<!-- for-ai:shared-skills:start -->
+## Shared project workflow
+
+At project entry, also read [for-ai/SKILLS.md](for-ai/SKILLS.md) for the required RTK, GSD Core,
+and Superpowers baseline, conditional Rust/Tauri/HTML routes, and Git worktree
+policy. Preserve this project's product and evidence contracts.
+<!-- for-ai:shared-skills:end -->
+
 Before inspecting, planning, editing, testing, or publishing this repository,
 read [`for-ai/README.md`](./for-ai/README.md). It is the canonical router to the
 project context, skill rules, verification gates, decisions, and workflow.
